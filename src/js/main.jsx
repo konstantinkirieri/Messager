@@ -6,7 +6,7 @@ class Chat extends React.Component {
         super(props);
         this.state = {
             value: '',
-            messeges: []
+            messages: ['hello']
         };
 
         this.submitMessage = this.submitMessage.bind(this);
@@ -19,21 +19,19 @@ class Chat extends React.Component {
     
     submitMessage(event) {
         event.preventDefault();
+        const newMessages = [...this.state.messages, this.state.value];
         this.setState({
-            messege: this.state.messeges.push(this.state.value),
+            messages: newMessages,
             value: ''
         })
     }
 
     render() {
-        const messegesForRender = this.state.messeges.map((messege, i) =>
-            <p key={i}>{messege}</p>
-        );
 
         return (
             <div>
                 <div>
-                    {messegesForRender}
+                    { this.state.messages.map((mes, i) => <p key={i}>{mes}</p>) }
                 </div>
                 <form onSubmit={this.submitMessage}>
                     <textarea value={this.state.value} onChange={this.handleChange} />
