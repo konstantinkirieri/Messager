@@ -30,6 +30,7 @@ class Chat extends React.Component {
     
     submitMessage(event) {
         event.preventDefault();
+        if(this.state.value == false) return;
         const newMessages = [...this.state.messages, {author: 'user', text: this.state.value}];
         this.setState({
             messages: newMessages,
