@@ -6,7 +6,7 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: {
-        main: ['@babel/polyfill', './js/main.jsx']
+        main: ['@babel/polyfill', './js/Layout.jsx']
     },
     output: {
         filename: 'bundle.js',

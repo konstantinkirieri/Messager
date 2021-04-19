@@ -1,51 +1,33 @@
-.Chat {
-    padding: 10px;
-    width: 400px;
-    border: 2px solid black;
-    border-radius: 15px;
-    background-color: brown;
-    margin: 0 auto;
-}
 
 .areaMessag {
-    background-color: peru;
+    background-color: rgb(218, 218, 218);
     display: flex;
     flex-direction: column;
-    border-radius: 15px 15px 0 0;
-    height: 500px;
+    height: 84vh;
+    padding: 10px;
     overflow-y: scroll;
 }
 
-.messaguser {
-    background-color: rgb(179, 129, 65);
+.messagUser {
+    background-color: rgb(155, 155, 155);
     padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 50px;
+    min-width: 100px;
+    align-self: flex-end;
+    text-align: center;
 }
 
 .messagGroot {
-    background-color: rgb(105, 67, 28);
+    background-color: rgb(114, 114, 114);
     padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 50px;
+    min-width: 100px;
+    align-self: flex-start;
+    text-align: center;
 }
-
-.inputForMessag {
+.messegFild {
+    border-top: 1px solid rgb(87, 87, 87);
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: inherit;
-    height: 100px;
-}
-
-.inputForMessag textarea {
-    height: 90px;
-    width: 300px;
-}
-
-.inputForMessag input {
-    width: 100px;
-    height: 50px;
-    font-size: 14px;
-    background-color: peru;
-}
-
-.inputForMessag input:hover {
-    background-color: saddlebrown;
 }
