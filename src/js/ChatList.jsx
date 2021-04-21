@@ -1,160 +1,35 @@
 import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
 import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
+import Button from '@material-ui/core/Button'
 
-
-import MessageField from './MessageField.jsx';
-
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    padding: 0,
-  },
-}));
-
-export default function MiniDrawer() {
-  const classes = useStyles();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
+export default class ChatList extends React.Component {
+  static propTypes = {
+    chatId: PropTypes.string,
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            HEADER
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
-        }}
-      >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </div>
-        <Divider />
+  render () {
+
+    return (
+      <div className='ChatList'>
         <List>
-          {['chat 1', 'chat 2', 'chat 3', 'chat 4'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon><MailIcon /></ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
+          {this.props.chats.map(({ id, text }) => (
+            <Link to={`/chat/${id}`} key={id}>
+              <ListItem button selected={id === this.props.chatId}>
+                <ListItemText primary={text} />
+              </ListItem>
+            </Link>
           ))}
         </List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <MessageField/>
-      </main>
-    </div>
-  );
+        <Button variant="contained" onClick={this.props.addChat}>Добавить чат</Button>
+      </div>
+    )
+  }
 }

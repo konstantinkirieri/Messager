@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextFild from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../style/style.css'
@@ -13,11 +14,15 @@ function Message(props) {
 }
 
 export default class MessageField extends React.Component {
+
+    static propTypes = {
+        chatId: PropTypes.string
+    };
+
     constructor(props) {
         super(props);
         this.state = {
             value: '',
-            messages: [],
             robotToggle: false
         };
 
@@ -28,14 +33,17 @@ export default class MessageField extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value})
+        this.setState(
+            {
+                value: event.target.value
+            }
+        )
     }
     
-    submitMessage(event) {
+    submitMessage() {
         if(this.state.value == false) return;
-        const newMessages = [...this.state.messages, {author: 'User', text: this.state.value}];
+        this.props.submitMessage()
         this.setState({
-            messages: newMessages,
             value: '',
             robotToggle: true
         })
@@ -48,29 +56,30 @@ export default class MessageField extends React.Component {
     }
 
     componentDidUpdate() {
+
         if(this.state.robotToggle) {
             this.setState({
                 robotToggle: false
             })
-            setTimeout(() => {
-                const robotMessages = [...this.state.messages, {author: 'Groot', text: 'I am Groot'}];
-                return this.setState({
-                    messages: robotMessages
-                })
-            }, 1000)
+            this.props.submitMessageGrut()
     }
-        this.messageFieldRef.current.scrollTop =
-            this.messageFieldRef.current.scrollHeight - this.messageFieldRef.current.clientHeight;
+        if(this.props.chatId) {this.messageFieldRef.current.scrollTop =
+            this.messageFieldRef.current.scrollHeight - this.messageFieldRef.current.clientHeight;}
     }
 
     renderMessag = (mes, i) => <Message key={i} mes={mes}/>
 
     render() {
+        const { chatId } = this.props;
+
+        if(!this.props.chatId) {
+            return <div className='MessageField'>Выберите чат</div>
+        }
 
         return (
-            <div className='Chat'>
+            <div className='MessageField'>
                 <div ref={this.messageFieldRef} className='areaMessag'>
-                    { this.state.messages.map(this.renderMessag) }
+                    { this.props.messages[chatId].map(this.renderMessag) }
                 </div>
                 <div className="messegFild">
                     <TextFild

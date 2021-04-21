@@ -6,15 +6,18 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: {
-        main: ['@babel/polyfill', './js/Layout.jsx']
+        main: ['@babel/polyfill', './index.jsx']
     },
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     devServer: {
+      historyApiFallback: true,
       port: 4200
     },
+    devtool: 'eval-source-map',
     plugins: [
         new HTMLWebpackPlugin({
             template: './index.html'

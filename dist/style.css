@@ -1,18 +1,9 @@
-.Chat {
-    padding: 10px;
-    width: 400px;
-    border: 1px solid black;
-    border-radius: 15px;
-    background-color: rgb(149, 149, 149);
-    margin: 0 auto;
-}
 
 .areaMessag {
     background-color: rgb(218, 218, 218);
     display: flex;
     flex-direction: column;
-    border-radius: 15px 15px 0 0;
-    height: 500px;
+    height: 84vh;
     padding: 10px;
     overflow-y: scroll;
 }
@@ -37,6 +28,6 @@
     text-align: center;
 }
 .messegFild {
-    padding-top: 10px;
+    border-top: 1px solid rgb(87, 87, 87);
     display: flex;
 }
