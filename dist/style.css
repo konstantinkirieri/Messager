@@ -1,9 +1,41 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: initial;
+}
+
+.header {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    font-size: 40px;
+    padding: 25px;
+    height: 100px;
+    background-color: gray;
+}
+
+.hederLink {
+    padding: 5px;
+    font-size: 30px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: rgb(95, 97, 102);
+}
+
+.content {
+    display: flex;
+}
 
 .areaMessag {
     background-color: rgb(218, 218, 218);
     display: flex;
     flex-direction: column;
-    height: 84vh;
+    height: 80vh;
     padding: 10px;
     overflow-y: scroll;
 }
@@ -30,4 +62,12 @@
 .messegFild {
     border-top: 1px solid rgb(87, 87, 87);
     display: flex;
+}
+
+.MessageField {
+    flex-grow: 3;
+}
+
+.ChatList {
+    flex-grow: 1;
 }

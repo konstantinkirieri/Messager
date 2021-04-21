@@ -67,7 +67,7 @@ export default class MessageField extends React.Component {
             this.messageFieldRef.current.scrollHeight - this.messageFieldRef.current.clientHeight;}
     }
 
-    renderMessag = (mes, i) => <Message key={i} mes={mes}/>
+    renderMessage = (mes, i) => <Message key={i} mes={mes}/>
 
     render() {
         const { chatId } = this.props;
@@ -79,7 +79,7 @@ export default class MessageField extends React.Component {
         return (
             <div className='MessageField'>
                 <div ref={this.messageFieldRef} className='areaMessag'>
-                    { this.props.messages[chatId].map(this.renderMessag) }
+                    { this.props.messages[chatId].map(this.renderMessage) }
                 </div>
                 <div className="messegFild">
                     <TextFild
