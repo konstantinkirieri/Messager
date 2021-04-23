@@ -33,36 +33,26 @@ module.exports = {
             use: [MiniCssExtractPlugin.loader ,'css-loader']
           },
           {
-            test: /\.js$/,
+            test: /\.jsx?$/,
             exclude: /node_modules/,
+            resolve: {
+                extensions: ['.js', '.jsx']
+            },
             use: {
-              loader: "babel-loader",
-              options: {
-                presets: [
-                    '@babel/preset-env'
-                ],
-                plugin: [
-                    '@babel/plugin-proposal-class-properties'
-                ]
-              }
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env', '@babel/preset-react'],
+                    plugins: [
+                        [
+                            "@babel/plugin-proposal-class-properties",
+                            {
+                                "loose": true
+                            }
+                        ]
+                    ]
+                }
             }
-          },
-          {
-            test: /\.jsx$/,
-            exclude: /node_modules/,
-            use: {
-              loader: "babel-loader",
-              options: {
-                presets: [
-                    '@babel/preset-env',
-                    '@babel/preset-react'
-                ],
-                plugins: [
-                    '@babel/plugin-proposal-class-properties',
-                ]
-              }
-            }
-          }
+        },
         ]
       }
 }

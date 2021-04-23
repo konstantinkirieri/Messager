@@ -1,0 +1,12 @@
+.containerProfile {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.containerProfile p {
+    width: 400px;
+    text-align: center;
+    font-size: 30px;
+}
