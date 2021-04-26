@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    font-size: 40px;
+    padding: 25px;
+    height: 100px;
+    background-color: gray;
+}
+
+.hederLink {
+    padding: 5px;
+    font-size: 30px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: rgb(95, 97, 102);
+}
+
+.nameChat {
+    width: 250px;
+}
