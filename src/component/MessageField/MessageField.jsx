@@ -2,16 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextFild from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Message from './../../containers/Message'
 import './style.css'
-
-function Message(props) {
-    return (
-        <div className={'messag' + props.sender}>
-            <h3>{props.sender}</h3>
-            <p key={props.index}>{props.text}</p>
-        </div>
-    )
-}
 
 export default class MessageField extends React.Component {
 
@@ -41,11 +33,15 @@ export default class MessageField extends React.Component {
     
     submitMessage() {
         if(this.state.value == false) return;
+            const arrOfObj = Object.entries(this.props.messages);
+            let messageId = 0;
+            if(arrOfObj.length){
+                messageId = Number(arrOfObj[arrOfObj.length - 1][0]) + 1;
+            } else {
+                messageId = 1
+            }
 
-            this.props.sendMessage(this.state.value, 'me', this.props.chatId);
-            setTimeout(() => {
-                this.props.sendMessage('Я робот!', 'bot', this.props.chatId);
-            }, 1000)
+            this.props.sendMessage(this.state.value, 'me', this.props.chatId, messageId);
             
 
             this.setState({
@@ -74,6 +70,8 @@ export default class MessageField extends React.Component {
 
         const messageElements = Object.entries(messages).map(([ index, value ]) => (
             (messageList.includes(Number(index))) && <Message
+                messageId={index}
+                chatId={chatId}
                 key={index}
                 text={value.text}
                 sender={value.sender}/>)
