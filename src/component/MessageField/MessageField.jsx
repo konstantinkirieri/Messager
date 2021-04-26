@@ -1,24 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextFild from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import '../style/style.css'
+import './style.css'
 
 function Message(props) {
     return (
-        <div className={'messag' + props.mes.author}>
-            <h3>{props.mes.author}</h3>
-            <p key={props.i}>{props.mes.text}</p>
+        <div className={'messag' + props.sender}>
+            <h3>{props.sender}</h3>
+            <p key={props.index}>{props.text}</p>
         </div>
     )
 }
 
 export default class MessageField extends React.Component {
+
+    static propTypes = {
+        chatId: PropTypes.string
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
-            messages: [],
-            robotToggle: false
+            value: ''
         };
 
         this.messageFieldRef = React.createRef();
@@ -28,17 +32,26 @@ export default class MessageField extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value})
+        this.setState(
+            {
+                value: event.target.value
+            }
+        )
     }
     
-    submitMessage(event) {
+    submitMessage() {
         if(this.state.value == false) return;
-        const newMessages = [...this.state.messages, {author: 'User', text: this.state.value}];
-        this.setState({
-            messages: newMessages,
-            value: '',
-            robotToggle: true
-        })
+
+            this.props.sendMessage(this.state.value, 'me', this.props.chatId);
+            setTimeout(() => {
+                this.props.sendMessage('Я робот!', 'bot', this.props.chatId);
+            }, 1000)
+            
+
+            this.setState({
+                value: '',
+            })
+            
     }
 
     handleKeyUp = (event) => {
@@ -48,29 +61,28 @@ export default class MessageField extends React.Component {
     }
 
     componentDidUpdate() {
-        if(this.state.robotToggle) {
-            this.setState({
-                robotToggle: false
-            })
-            setTimeout(() => {
-                const robotMessages = [...this.state.messages, {author: 'Groot', text: 'I am Groot'}];
-                return this.setState({
-                    messages: robotMessages
-                })
-            }, 1000)
-    }
-        this.messageFieldRef.current.scrollTop =
-            this.messageFieldRef.current.scrollHeight - this.messageFieldRef.current.clientHeight;
+
+        if(this.props.chatId) {this.messageFieldRef.current.scrollTop =
+            this.messageFieldRef.current.scrollHeight - this.messageFieldRef.current.clientHeight;}
     }
 
-    renderMessag = (mes, i) => <Message key={i} mes={mes}/>
+    renderMessage = (mes, i) => <Message key={i} mes={mes}/>
 
     render() {
+        const { messages, chatId } = this.props;
+        const { messageList } = this.props.chats[chatId]
+
+        const messageElements = Object.entries(messages).map(([ index, value ]) => (
+            (messageList.includes(Number(index))) && <Message
+                key={index}
+                text={value.text}
+                sender={value.sender}/>)
+        );
 
         return (
-            <div className='Chat'>
+            <div className='MessageField'>
                 <div ref={this.messageFieldRef} className='areaMessag'>
-                    { this.state.messages.map(this.renderMessag) }
+                    { messageElements }
                 </div>
                 <div className="messegFild">
                     <TextFild
@@ -94,6 +106,5 @@ export default class MessageField extends React.Component {
         )
     }
 }
- 
 
  
