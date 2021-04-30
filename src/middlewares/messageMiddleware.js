@@ -8,7 +8,6 @@ export default store => next => (action) => {
                 const arrOfObj = Object.entries(store.getState().messageReducer.messages);
                 const messageId = Number(arrOfObj[arrOfObj.length - 1][0]) + 1;
                 
-                // const messageId = Object.keys(store.getState().messageReducer.messages).length + 1;
                 store.dispatch(sendMessage('Не приставай ко мне, я робот!', 'bot', action.chatId, messageId))
             }, 1000)
            }

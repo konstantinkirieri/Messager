@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "title": "Чат 1",
+        "messageList": [
+            {
+                "id": 1,
+                "text": "Message from api",
+                "sender": "bot"
+            }
+        ],
+        "chatActive": false
+    },
+    {
+        "id": 2,
+        "title": "Чат 2",
+        "messageList": [
+            {
+                "id": 2,
+                "text": "Message from api 2",
+                "sender": "bot"
+            }
+        ],
+        "chatActive": false
+    }
+]

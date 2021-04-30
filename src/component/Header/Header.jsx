@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './style.css'
+import Fab from '@material-ui/core/Fab';
+import './style.css';
 
 export default class Header extends React.Component {
     static propTypes = {
-        chatId: PropTypes.string,
+        title: PropTypes.string,
         push: PropTypes.func.isRequired,
+        chats: PropTypes.object.isRequired,
+        profileInfo: PropTypes.object.isRequired,
     };
 
     handleNavigate = (link) => {
@@ -15,16 +18,14 @@ export default class Header extends React.Component {
     render() {
         return (
             <div className='header'>
-                    <div 
+                <div className='userArea'>
+                    <Fab variant="extended" 
                     className='hederLink'
                     onClick={ () => this.handleNavigate('/profile/') }>
-                        Профиль: { this.props.profileInfo.userName }
-                    </div>
-                    <div className='hederLink'
-                    onClick={ () => this.handleNavigate('/') }>
-                        Мои чаты
-                    </div>
-                <div className='nameChat'>Чат {this.props.chatId || 'не выбран'}</div>
+                        <p>{ this.props.profileInfo.userName }</p>
+                    </Fab>
+                </div>
+                <div className='nameChat'>{this.props.title}</div>
             </div>
         )
     }

@@ -1,17 +1,8 @@
-import { SEND_MESSAGE } from '../actions/messageActions.js';
-import { REMOVE_MESSAGE } from '../actions/removeMessageActions';
+import { SEND_MESSAGE, REMOVE_MESSAGE } from '../actions/messageActions.js';
+import { LOAD_CHATS_SUCCESS } from '../actions/chatActions'
 
 const initialStore = {
-    messages: {
-        1: {
-            sender: 'bot',
-            text: 'Привет'
-        },
-        2: {
-            sender: 'bot',
-            text: 'Как дела?'
-        }
-    }
+    messages: {}
 };
 
 export default function chatReducer(store = initialStore, action) {
@@ -40,6 +31,14 @@ export default function chatReducer(store = initialStore, action) {
                     ...newMessages
                 }
             };
+       }
+       case LOAD_CHATS_SUCCESS: {
+           const { messages } = action.payload.entities;
+
+           return {
+               ...store,
+               messages
+           }
        }
         default:
             return store;

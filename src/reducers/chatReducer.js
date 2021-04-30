@@ -1,15 +1,16 @@
-import { SEND_MESSAGE } from '../actions/messageActions.js';
-import { ADD_CHAT } from "../actions/chatActions";
-import { ACTIVATE_CHAT } from '../actions/chatActiveActions';
-import { REMOVE_CHAT } from '../actions/removeChatActions';
-import { REMOVE_MESSAGE } from '../actions/removeMessageActions';
+import { SEND_MESSAGE, REMOVE_MESSAGE } from '../actions/messageActions.js';
+import {
+    ADD_CHAT,
+    ACTIVATE_CHAT,
+    REMOVE_CHAT,
+    LOAD_CHATS_REQUEST,
+    LOAD_CHATS_SUCCESS,
+    LOAD_CHATS_ERROR
+} from "../actions/chatActions";
 
 const initialStore = {
-    chats: {
-        1: {title: 'Чат 1', messageList: [1], chatActive: false},
-        2: {title: 'Чат 2', messageList: [2], chatActive: false},
-        3: {title: 'Чат 3', messageList: [], chatActive: false},
-    }
+    chats: {},
+    isLoading: false,
 };
 
 
@@ -71,9 +72,13 @@ export default function chatReducer(store = initialStore, action) {
        }
        case ADD_CHAT: {
            const arrOfObj = Object.entries(store.chats);
-           const chatId = Number(arrOfObj[arrOfObj.length - 1][0]) + 1;
+           let chatId;
+           if(arrOfObj.length) {
+               chatId = Number(arrOfObj[arrOfObj.length - 1][0]) + 1;
+           } else { chatId = 1 }
 
            return {
+               ...store,
                chats: {
                    ...store.chats,
                    [chatId]: {
@@ -83,6 +88,27 @@ export default function chatReducer(store = initialStore, action) {
                    }
                }
            }
+       }
+       case LOAD_CHATS_REQUEST: {
+            return {
+                ...store,
+                isLoading: true
+            }
+       }
+       case LOAD_CHATS_ERROR: {
+        return {
+            ...store,
+            isLoading: false
+        }
+       }
+       case LOAD_CHATS_SUCCESS: {
+        const { chats } = action.payload.entities;
+
+        return {
+            ...store,
+            chats,
+            isLoading: false
+        }
        }
        default:
            return store;
