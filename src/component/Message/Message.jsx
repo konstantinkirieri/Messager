@@ -4,9 +4,16 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 export default class Message extends React.Component {
-    handleClickRemoveMessage = (event) => {
-        const messageId = event.currentTarget.dataset.messageid;
-        const chatId = event.currentTarget.dataset.chatid;
+    static propTypes = {
+        chatId: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        sender: PropTypes.string.isRequired,
+        messageId: PropTypes.number.isRequired,
+        removeMessage: PropTypes.func.isRequired,
+    };
+
+    handleClickRemoveMessage = () => {
+        const { messageId, chatId } = this.props;
 
         this.props.removeMessage(messageId, chatId)
     }
@@ -17,8 +24,6 @@ export default class Message extends React.Component {
             <h3>{this.props.sender}</h3>
             <p key={this.props.index}>{this.props.text}</p>
             <IconButton aria-label="delete" size="small"
-                data-messageid={this.props.messageId}
-                data-chatid={this.props.chatId}
                 onClick={this.handleClickRemoveMessage}>
                 <DeleteIcon fontSize="inherit" />
             </IconButton>

@@ -10,19 +10,15 @@ export default class Layout extends React.Component {
         chatId: PropTypes.string
     };
 
-    static defaultProps = {
-        chatId: '1'
-    };
-
     render () {
-        const { chatId } = this.props;
+        const { chatId, children, title } = this.props;
 
         return (
             <div className='container'>
-                <Header chatId={chatId}/>
+                <Header title={title}/>
                 <div className='content'>
                     <ChatList chatId={chatId}/>
-                    <MessageField chatId={chatId}/>
+                    { children }
                 </div>
             </div>
         )

@@ -8,7 +8,9 @@ import './style.css'
 export default class MessageField extends React.Component {
 
     static propTypes = {
-        chatId: PropTypes.string
+        chatId: PropTypes.string,
+        chats: PropTypes.object.isRequired,
+        messages: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -62,19 +64,19 @@ export default class MessageField extends React.Component {
             this.messageFieldRef.current.scrollHeight - this.messageFieldRef.current.clientHeight;}
     }
 
-    renderMessage = (mes, i) => <Message key={i} mes={mes}/>
-
     render() {
-        const { messages, chatId } = this.props;
-        const { messageList } = this.props.chats[chatId]
+        const { messages, chatId, chats } = this.props;
+        // const { messageList } = this.props.chats[chatId]
 
-        const messageElements = Object.entries(messages).map(([ index, value ]) => (
-            (messageList.includes(Number(index))) && <Message
-                messageId={index}
+        const messageElements = chats[chatId]?.messageList.map((messageId) => {
+            const { text, sender } = messages[messageId];
+            
+            return <Message
+                messageId={messageId}
                 chatId={chatId}
-                key={index}
-                text={value.text}
-                sender={value.sender}/>)
+                key={messageId}
+                text={text}
+                sender={sender}/>}
         );
 
         return (

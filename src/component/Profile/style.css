@@ -1,4 +1,5 @@
 .containerProfile {
+    flex: 3 3;
     padding-top: 30px;
     display: flex;
     flex-direction: column;

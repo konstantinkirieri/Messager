@@ -1,12 +1,11 @@
-import { SEND_MESSAGE } from "../actions/messageActions";
-import { activateChat } from "../actions/chatActiveActions"
+import { SEND_MESSAGE } from '../actions/messageActions';
+import { activateChat } from '../actions/chatActions';
+import { matchPath } from 'react-router-dom';
+import { CHAT_PATTERN } from './../constans';
 
 export default store => next => (action) => {
     switch (action.type) {
         case SEND_MESSAGE:
-
-            const { chatId } = action;
-            console.log(chatId);
             
             if (action.sender !== 'me') {
                 const chatId = action.chatId;
@@ -14,7 +13,13 @@ export default store => next => (action) => {
                 store.dispatch(activateChat(true, chatId));
 
                 setTimeout(() => {
-                    store.dispatch(activateChat(false, chatId));
+                    const { pathname } = store.getState().router.location;
+                    const { params } = matchPath(pathname, {
+                        path: CHAT_PATTERN,
+                        exact: true
+                    });
+
+                    if(chatId === params.id) store.dispatch(activateChat(false, chatId));
                 }, 500)
             }
     }
