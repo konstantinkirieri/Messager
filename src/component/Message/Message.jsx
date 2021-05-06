@@ -5,17 +5,18 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 export default class Message extends React.Component {
     static propTypes = {
+        isRemoving: PropTypes.bool,
         chatId: PropTypes.string.isRequired,
         text: PropTypes.string.isRequired,
         sender: PropTypes.string.isRequired,
-        messageId: PropTypes.number.isRequired,
+        messageId: PropTypes.string.isRequired,
         removeMessage: PropTypes.func.isRequired,
     };
 
     handleClickRemoveMessage = () => {
-        const { messageId, chatId } = this.props;
+        const { removeMessage, messageId } = this.props;
 
-        this.props.removeMessage(messageId, chatId)
+        removeMessage(messageId)
     }
 
     render () {

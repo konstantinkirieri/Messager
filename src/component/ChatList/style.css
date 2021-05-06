@@ -29,3 +29,11 @@
 .MuiFormControl-root {
     flex: 1 1;
 }
+
+.delete-button {
+    opacity: 0;
+}
+
+.chatItem:hover .delete-button {
+    opacity: 1;
+}

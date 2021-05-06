@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "text": "Hi",
+    "sender": "me",
+    "chatId": 2
+  },
+  {
+    "id": 2,
+    "text": "i am groot",
+    "sender": "me",
+    "chatId": 2
+  },
+  {
+    "id": 1,
+    "text": "lalala",
+    "sender": "me",
+    "chatId": 3
+  }
+]
