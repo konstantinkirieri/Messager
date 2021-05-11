@@ -1,8 +1,12 @@
 import { SEND_MESSAGE, REMOVE_MESSAGE } from '../actions/messageActions.js';
 import {
-    ADD_CHAT,
+    ADD_CHAT_REQUEST,
+    ADD_CHAT_SUCCESS,
+    ADD_CHAT_ERROR,
     ACTIVATE_CHAT,
-    REMOVE_CHAT,
+    DELETE_CHAT_REQUEST,
+    DELETE_CHAT_SUCCESS,
+    DELETE_CHAT_ERROR,
     LOAD_CHATS_REQUEST,
     LOAD_CHATS_SUCCESS,
     LOAD_CHATS_ERROR
@@ -11,35 +15,37 @@ import {
 const initialStore = {
     chats: {},
     isLoading: false,
+    isAdding: false,
 };
 
 
 export default function chatReducer(store = initialStore, action) {
    switch (action.type) {
-       case REMOVE_MESSAGE: {
-            const { messageId, chatId } = action;
-            const indexRemoveMessage = store.chats[chatId].messageList.indexOf(Number(messageId));
-            const newChats = store.chats;
-            newChats[chatId].messageList.splice(indexRemoveMessage, 1)
-
-            return {
-                chats: {
-                    ...newChats
+       case DELETE_CHAT_REQUEST: {
+            const { id } = action.payload;
+            const { chats } = store;
+        return {
+            ...store,
+            chats: {
+                ...store.chats,
+                [id]: {
+                    ...chats[id],
+                    isDeleting: true,
                 }
-            }
+            }   
+        }
        }
-       case REMOVE_CHAT: {
-           const { chatId } = action;
+       case DELETE_CHAT_SUCCESS: {
+           const { id } = action.payload;
+           const { chats } = store;
 
-           const newChats = store.chats;
-           delete newChats[chatId];
+           const newChats = { ...chats };
+           delete newChats[id];
 
            return {
-                chats: {
-                    ...newChats
-                }
-            
-        }
+               ...store,
+               chats: newChats,
+           }
        }
        case ACTIVATE_CHAT: {
            const { activeChat, chatId } = action;
@@ -54,40 +60,33 @@ export default function chatReducer(store = initialStore, action) {
             },
         };
        }
-       case SEND_MESSAGE: {
-            const { chatId, messageId } = action;
-
-            return {
-                chats: {
-                    ...store.chats,
-                    [chatId]: {
-                        ...store.chats[chatId],
-                        messageList: [
-                            ...store.chats[chatId].messageList,
-                            messageId
-                        ]
-                    }
-                },
-            };
+       case ADD_CHAT_REQUEST: {
+           return {
+               ...store,
+               isAdding: true,
+           };
        }
-       case ADD_CHAT: {
-           const arrOfObj = Object.entries(store.chats);
-           let chatId;
-           if(arrOfObj.length) {
-               chatId = Number(arrOfObj[arrOfObj.length - 1][0]) + 1;
-           } else { chatId = 1 }
+       case ADD_CHAT_SUCCESS: {
+           const { id, title } = action.payload;
 
            return {
                ...store,
+               isAdding: false,
                chats: {
                    ...store.chats,
-                   [chatId]: {
-                       title: action.title,
-                       messageList: [],
+                   [id]: {
+                       title: title,
+                       messageList: [], // нужно ли?
                        chatActive: false
                    }
                }
            }
+       }
+       case ADD_CHAT_ERROR: {
+        return {
+            ...store,
+            isAdding: true,
+        };
        }
        case LOAD_CHATS_REQUEST: {
             return {
@@ -95,18 +94,22 @@ export default function chatReducer(store = initialStore, action) {
                 isLoading: true
             }
        }
-       case LOAD_CHATS_ERROR: {
-        return {
-            ...store,
-            isLoading: false
-        }
-       }
        case LOAD_CHATS_SUCCESS: {
-        const { chats } = action.payload.entities;
+        const { chats = {} } = action.payload.entities;
+
+        Object.keys(chats).forEach((id) => {
+            chats[id].messageList = [];
+        });
 
         return {
             ...store,
             chats,
+            isLoading: false
+        }
+       }
+       case LOAD_CHATS_ERROR: {
+        return {
+            ...store,
             isLoading: false
         }
        }

@@ -2,20 +2,39 @@ import { createAction } from 'redux-api-middleware';
 import { normalize } from 'normalizr';
 import { chats } from './../utils/schemes';
 
-export const ADD_CHAT = '@@chat/ADD_CHA';
+export const ADD_CHAT_REQUEST = '@@chat/ADD_CHAT_REQUEST';
+export const ADD_CHAT_SUCCESS = '@@chat/ADD_CHAT_SUCCESS';
+export const ADD_CHAT_ERROR = '@@chat/ADD_CHAT_ERROR';
 export const ACTIVATE_CHAT = '@@chat/ACTIVATE_CHAT';
-export const REMOVE_CHAT = '@@chat/REMOVE_CHAT';
+export const DELETE_CHAT_REQUEST = '@@chat/DELETE_CHAT_REQUEST';
+export const DELETE_CHAT_SUCCESS = '@@chat/DELETE_CHAT_SUCCESS';
+export const DELETE_CHAT_ERROR = '@@chat/DELETE_CHAT_ERROR';
 export const LOAD_CHATS_REQUEST = '@@chat/LOAD_CHATS_REQUEST';
 export const LOAD_CHATS_SUCCESS = '@@chat/LOAD_CHATS_SUCCESS';
 export const LOAD_CHATS_ERROR = '@@chat/LOAD_CHATS_ERROR';
+export const DELETE_MESSAGES_CHAT_REQUEST = '@@chat/DELETE_MESSAGES_CHAT_REQUEST';
+export const DELETE_MESSAGES_CHAT_SUCCESS = '@@chat/DELETE_MESSAGES_CHAT_SUCCESS';
+export const DELETE_MESSAGES_CHAT_ERROR = '@@chat/DELETE_MESSAGES_CHAT_ERROR';
 
-export const addChat = (title) => {
-    return {
-        type: ADD_CHAT,
-        title
-    }
+
+export const addChat = ({ id, title }) => {
+    return createAction({
+        endpoint: '/api/chats',
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({ id, title }),
+        types: [
+            ADD_CHAT_REQUEST,
+            {
+                type: ADD_CHAT_SUCCESS,
+                payload: { id, title}
+            },
+            ADD_CHAT_ERROR
+        ]
+    })
 };
-
 
 export const activateChat = (activeChat, chatId) => {
     return {
@@ -25,16 +44,39 @@ export const activateChat = (activeChat, chatId) => {
     }
 };
 
-export const removeChat = (chatId) => {
-    return {
-        type: REMOVE_CHAT,
-        chatId
-    }
+export const deleteMessagesChat = (chatId) => {
+    return createAction({
+        endpoint: `/api/messages?chatId=${chatId}`,
+        method: 'DELETE',
+        types: [
+            DELETE_MESSAGES_CHAT_REQUEST,
+            DELETE_MESSAGES_CHAT_SUCCESS,
+            DELETE_MESSAGES_CHAT_ERROR
+    ]
+    })
+};
+
+export const deleteChat = (id) => {
+    return createAction({
+        endpoint: `/api/chats/${id}`,
+        method: 'DELETE',
+        types: [
+            {
+                type: DELETE_CHAT_REQUEST,
+                payload: { id }
+            },
+            {
+                type: DELETE_CHAT_SUCCESS,
+                payload: { id }
+            },
+            DELETE_CHAT_ERROR
+    ]
+    })
 };
 
 export const loadChats = () => {
     return createAction({
-        endpoint: '/api/chats.json',
+        endpoint: '/api/chats',
         method: 'GET',
         types: [LOAD_CHATS_REQUEST, {
             type: LOAD_CHATS_SUCCESS,
@@ -44,4 +86,4 @@ export const loadChats = () => {
             }
         }, LOAD_CHATS_ERROR]
     })
-}
+};

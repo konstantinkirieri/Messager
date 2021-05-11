@@ -1,14 +1,15 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { sendMessage } from './../actions/messageActions';
+import { sendMessage, loadMessages } from './../actions/messageActions';
 import MessageField from './../component/MessageField/MessageField'
  
-const mapStateToProps = ({ chatReducer, messageReducer }) => ({
+const mapStateToProps = ({ messageReducer }) => ({
     messages: messageReducer.messages,
-    chats: chatReducer.chats,
+    isLoading: messageReducer.isLoading,
+    isSending: messageReducer.isSending,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ sendMessage, loadMessages }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageField);
 

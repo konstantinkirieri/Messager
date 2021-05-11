@@ -23,7 +23,7 @@ export default class Router extends React.Component {
 
                     return (
                         <Layout
-                            title={this.props.chats[chatId]?.title}
+                            title={this.props.chats[chatId]?.title || ''}
                             chatId={chatId}>
                             <MessageField chatId={chatId} />
                         </Layout>
