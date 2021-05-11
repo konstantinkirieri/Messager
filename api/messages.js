@@ -26,9 +26,9 @@ module.exports = (app) => {
         const messages = await getMessages();
         const newMessage = req.body;
 
-        // if (messages.some(({ id }) => id === newMessage.id)) {
-        //     res.status(400).send(`Сообщение с идентификатором ${newMessage.id} уже существует`);
-        // }
+        if (messages.some(({ id }) => id === newMessage.id)) {
+            res.status(400).send(`Сообщение с идентификатором ${newMessage.id} уже существует`);
+        }
 
         messages.push(newMessage);
         await setMessages(messages);

@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const initChats = require('./chats');
 const initMessages = require('./messages');
+const initProfile = require('./profile')
 
 const app = express();
 const port = 3000;
@@ -19,6 +20,8 @@ app.use(function (req, res, next) {
 initChats(app);
 // messages endpoints
 initMessages(app);
+
+initProfile(app);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

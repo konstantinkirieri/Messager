@@ -44,9 +44,9 @@ export const activateChat = (activeChat, chatId) => {
     }
 };
 
-export const deleteMessagesChat = () => {
+export const deleteMessagesChat = (chatId) => {
     return createAction({
-        endpoint: `/api/messages`,
+        endpoint: `/api/messages?chatId=${chatId}`,
         method: 'DELETE',
         types: [
             DELETE_MESSAGES_CHAT_REQUEST,

@@ -14,7 +14,7 @@ export const profileInfo = (userName, surname, age) => ({
 
 export const loadProfile = () => {
     return createAction({
-        endpoint: '/api/profile.json',
+        endpoint: '/api/profile',
         method: 'GET',
         types: [LOAD_PROFILE_REQUEST, LOAD_PROFILE_SUCCESS, LOAD_PROFILE_ERROR]
     })
